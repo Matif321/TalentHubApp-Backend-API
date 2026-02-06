@@ -1,10 +1,33 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
-const userShema = new mongoose.Schema({
+const userSchema = new mongoose.Schema(
+    {
+        email: {
+            type: String,
+            required: true,
+            unique: true,
+            lowercase: true,
+            trim: true
+        },
 
+        password: {
+            type: String,
+            required: true,
+            minlength: 8
+        },
 
+        role: {
+            type: String,
+            enum: ["model", "agency", "brand"],
+            default: null
+        },
 
-})
+        isProfileComplete: {
+            type: Boolean,
+            default: false
+        }
+    },
+    { timestamps: true }
+);
 
-const User = mongoose.model("User", userShema)
-export default User;
+module.exports = mongoose.model("User", userSchema);
