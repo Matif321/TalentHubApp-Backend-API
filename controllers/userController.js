@@ -48,3 +48,27 @@ export const signUp = async (req, res) => {
         });
     }
 };
+
+export const login = async (req, res) => {
+    try {
+
+        const { email, password } = req.body
+
+        if (!email || !password) {
+            return res.status(400).josn({
+                success: false,
+                message: "All filled are required"
+            })
+        }
+
+
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "server error",
+            error: message.error
+        })
+
+    }
+}
