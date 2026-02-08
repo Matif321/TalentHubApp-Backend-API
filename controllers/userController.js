@@ -49,9 +49,8 @@ export const signUp = async (req, res) => {
         });
     }
 };
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import User from "../models/userModel.js";
+
+
 
 export const login = async (req, res) => {
     try {
