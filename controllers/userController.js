@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken"
+import { verifyEmail } from "../emailVerify/verifyEmail.js";
 
 export const signUp = async (req, res) => {
     try {
@@ -33,6 +34,16 @@ export const signUp = async (req, res) => {
             role: role || "model",
             isProfileComplete: false
         });
+
+        const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: "10m" })
+
+        newUser.token = token
+        await user.save();
+
+        verifyEmail(token, email)
+
+
+
 
         // 5️⃣ Response
         res.status(201).json({
@@ -90,6 +101,7 @@ export const login = async (req, res) => {
             { userId: user._id, role: user.role },
             JWT_SECRET,
             { expiresIn: "7d" }
+
         );
 
         // Send login response
